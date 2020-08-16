@@ -1,0 +1,19 @@
+{
+  "name": "@vacasan/classified",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/classified.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "react": "^16.13.1"
+  },
+  "peerDependencies": {
+    "react": ">=16.13.1<18.0.0"
+  },
+  "dependencies": {
+    "@emotion/is-prop-valid": "^0.8.8",
+    "ramda": "^0.27.1"
+  }
+}
