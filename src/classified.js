@@ -14,7 +14,7 @@ function validateProps(props = {}) {
   return validProps;
 }
 
-const classified = curryN(2, function classified(tag, names = []) {
+function createClassifiedComponent(tag, names = []) {
   // ? className = staticNames + dynamicNames(props) + props.className
   return React.forwardRef(function Classified({ as: T = tag, ...props }, ref) {
     // ? can we optimize this
@@ -29,10 +29,12 @@ const classified = curryN(2, function classified(tag, names = []) {
 
     return <T {...elementProps} className={className} ref={ref} />;
   });
-});
+}
 
 function cx(names = []) {
   return names.filter(Boolean).join(" ");
 }
+
+const classified = curryN(2, createClassifiedComponent);
 
 export { classified, cx };
