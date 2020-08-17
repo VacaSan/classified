@@ -7,11 +7,15 @@
   "files": [
     "dist/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VacaSan/classified"
+  },
   "scripts": {
     "build": "rollup -c"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Vladan Kotarac",
+  "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",
