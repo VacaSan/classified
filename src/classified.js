@@ -1,5 +1,4 @@
 import React from "react";
-import curryN from "ramda/src/curryN";
 import isPropValid from "@emotion/is-prop-valid";
 
 const isFunc = x => typeof x === "function";
@@ -35,6 +34,9 @@ function cx(names = []) {
   return names.filter(Boolean).join(" ");
 }
 
-const classified = curryN(2, createClassifiedComponent);
+const curry = fn => (...args) =>
+  args.length > 1 ? fn(...args) : (...rest) => fn(args[0], ...rest);
+
+const classified = curry(createClassifiedComponent);
 
 export { classified, cx };
