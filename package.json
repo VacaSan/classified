@@ -12,7 +12,8 @@
     "url": "https://github.com/VacaSan/classified"
   },
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "test": "jest"
   },
   "author": "Vladan Kotarac",
   "license": "MIT",
@@ -23,7 +24,10 @@
     "@babel/preset-react": "^7.10.4",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
+    "jest": "^26.4.0",
     "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-test-renderer": "^16.13.1",
     "rollup": "^2.26.2",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-peer-deps-external": "^2.2.3"
