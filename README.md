@@ -4,22 +4,23 @@
 
 ## Usage
 
+```
+npm install --save @vacasan/classified
+```
+
 ```jsx
 import React from 'react';
-
 import { classified } from "@vacasan/classified";
 
-// Create a <Button> component that has a static className of `btn`
 const Button = classified("button")([
   "btn",
   ({ variant = "primary" }) => `btn-${variant}`,
   ({ block }) => block && "btn-block"
 ]);
 
-// Use them like any other React component
-<Button>Ok</Button>
-<Button variant="secondary">Cancel</Button>
-<Button className="special" style={{ fontStyle: "italic" }}>Special</Button>
-<Button block>Click me!</Button>
+<Button>Ok</Button> // <button className="btn btn-primary">
+<Button variant="secondary">Cancel</Button> // <button className="btn btn-secondary" />
+<Button className="special">Special</Button> // <button className="btn btn-primary special" />
+<Button block>Click me!</Button> // <button className="btn btn-primary btn-block" />
 
 ```
