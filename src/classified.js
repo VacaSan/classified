@@ -1,9 +1,11 @@
 import React from "react";
 import isPropValid from "@emotion/is-prop-valid";
 
-const isFunc = x => typeof x === "function";
+const makeIs = type => x => typeof x === type;
+const isFunc = makeIs("function");
+const isString = makeIs("string");
 
-function validateProps(props = {}) {
+function getHtmlProps(props = {}) {
   const validProps = {};
   for (const prop in props) {
     if (props.hasOwnProperty(prop) && isPropValid(prop)) {
@@ -23,8 +25,10 @@ function createClassifiedComponent(tag, names = []) {
       .filter(Boolean)
       .join(" ");
 
-    // ! only validate for html elements
-    const elementProps = validateProps(props);
+    // ! naive checking, but it's fine for now
+    // if it's a string we assume that it's a valid DOM type element
+    // else it's a valid component
+    const elementProps = isString(T) ? getHtmlProps(props) : props;
 
     return <T {...elementProps} className={className} ref={ref} />;
   });
