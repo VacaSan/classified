@@ -36,6 +36,6 @@
     "react": ">=16.13.1<18.0.0"
   },
   "dependencies": {
-    "@emotion/is-prop-valid": "^0.8.8"
+    "@emotion/is-prop-valid": "^1.0.0"
   }
 }
