@@ -32,9 +32,6 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-peer-deps-external": "^2.2.3"
   },
-  "peerDependencies": {
-    "react": ">=16.13.1<18.0.0"
-  },
   "dependencies": {
     "@emotion/is-prop-valid": "^0.8.8"
   }
