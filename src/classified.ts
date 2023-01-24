@@ -1,28 +1,41 @@
-import type { ComponentProps, ElementType, HTMLProps } from "react";
+import type { ComponentProps, ElementType } from "react";
 import { createElement, forwardRef } from "react";
 import isPropValid from "@emotion/is-prop-valid";
 
 type Falsy = false | 0 | "" | null | undefined;
 
-function classified(type) {
-  return function createClassifiedComponent(names) {
-    function ClassifiedComponent({ as = type, children, ...props }, ref) {
+type Generator<Props> = ((props: Props) => string | Falsy) | string | Falsy;
+
+type ClassNames<Props> = Array<Generator<Props>>;
+
+function classified<
+  Type extends ElementType,
+  AdditionalProps extends object = {}
+>(type: Type) {
+  type GeneratorProps = AdditionalProps & ComponentProps<Type>;
+
+  return function createClassifiedComponent(names: ClassNames<GeneratorProps>) {
+    type Props = GeneratorProps & {
+      as?: Type;
+      className?: string;
+    };
+
+    const ClassifiedComponent = forwardRef<Type, Props>((props: Props, ref) => {
       let className = names
         .concat(props.className)
         .map(name => (isFunc(name) ? name(props) : name))
         .filter(Boolean)
         .join(" ");
 
-      let elementProps = isString(as) ? getHtmlProps(props) : props;
+      let elementProps = isString(props.as) ? getHtmlProps(props) : props;
 
       return createElement(
-        as,
-        Object.assign(elementProps, { className, ref }),
-        children
+        props.as || type,
+        Object.assign({}, elementProps, { className, ref })
       );
-    }
+    });
 
-    return forwardRef(ClassifiedComponent);
+    return ClassifiedComponent;
   };
 }
 

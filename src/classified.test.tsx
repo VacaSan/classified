@@ -4,6 +4,10 @@ import { classified } from "./classified";
 
 type Props = { variant?: "primary"; block?: boolean };
 
+function Link(props: HTMLProps<HTMLAnchorElement>) {
+  return <a {...props} />;
+}
+
 test("should create a component", () => {
   let Button = classified("button")([]);
   render(<Button>hello</Button>);
@@ -23,7 +27,9 @@ test("should apply dynamic classNames", () => {
 });
 
 test("should pass props to dynamic className creator", () => {
-  let Button = classified("button")([({ variant }: Props) => `btn-${variant}`]);
+  let Button = classified<"button", Props>("button")([
+    ({ variant }) => `btn-${variant}`,
+  ]);
   render(<Button variant="primary">hello</Button>);
   expect(screen.getByRole("button", { name: /hello/i }).className).toBe(
     "btn-primary"
@@ -31,10 +37,10 @@ test("should pass props to dynamic className creator", () => {
 });
 
 test("should combine both static and dynamic classNames", () => {
-  let Button = classified("button")([
+  let Button = classified<"button", Props>("button")([
     "btn",
-    ({ variant }: Props) => `btn-${variant}`,
-    ({ block }: Props) => block && "btn-block",
+    ({ variant }) => `btn-${variant}`,
+    ({ block }) => block && "btn-block",
   ]);
   render(
     <Button variant="primary" block>
@@ -47,11 +53,7 @@ test("should combine both static and dynamic classNames", () => {
 });
 
 test("should accept any react component as the first argument", () => {
-  function Link(props: HTMLProps<HTMLAnchorElement>) {
-    return <a {...props} />;
-  }
-
-  let ClassifiedLink = classified(Link)(["link"]);
+  let ClassifiedLink = classified<typeof Link | "span">(Link)(["link"]);
   render(<ClassifiedLink href="/read-more">Read more</ClassifiedLink>);
   expect(screen.getByRole("link", { name: /read more/i }).className).toBe(
     "link"
@@ -66,12 +68,22 @@ test("component should accept any additional `className`", () => {
   );
 });
 
-test("component should accept `as` prop", () => {
-  let Button = classified("button")(["btn"]);
+test("component should accept html element as `as` prop", () => {
+  let Button = classified<"button" | "a">("button")(["btn"]);
   render(
     <Button as="a" href="/">
-      hello
+      Home
     </Button>
   );
-  expect(screen.getByRole("link", { name: /hello/i }).className).toBe("btn");
+  expect(screen.getByRole("link", { name: /home/i }).className).toBe("btn");
+});
+
+test("component should accept any component as `as` prop", () => {
+  let Button = classified<"button" | typeof Link>("button")(["btn"]);
+  render(
+    <Button as={Link} href="/">
+      Home
+    </Button>
+  );
+  expect(screen.getByRole("link", { name: /home/i }).className).toBe("btn");
 });
