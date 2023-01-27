@@ -27,7 +27,9 @@ function classified<
         .filter(Boolean)
         .join(" ");
 
-      let elementProps = isString(props.as) ? getHtmlProps(props) : props;
+      let { as, ...elementProps } = isString(props.as)
+        ? getHtmlProps(props)
+        : props;
 
       return createElement(
         props.as || type,

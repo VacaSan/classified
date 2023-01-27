@@ -1,4 +1,4 @@
-import type { HTMLProps } from "react";
+import { createRef, HTMLProps } from "react";
 import { render, screen } from "@testing-library/react";
 import { classified } from "./classified";
 
@@ -86,4 +86,11 @@ test("component should accept any component as `as` prop", () => {
     </Button>
   );
   expect(screen.getByRole("link", { name: /home/i }).className).toBe("btn");
+});
+
+test("should forward `ref`", () => {
+  let Button = classified("button")([]);
+  let ref = createRef<"button">();
+  render(<Button ref={ref}>hello</Button>);
+  expect(screen.getByRole("button", { name: /hello/i })).toBe(ref.current);
 });
